@@ -83,6 +83,7 @@ use wry::{
   target_os = "windows",
   target_os = "macos",
   target_os = "ios",
+  target_os = "visionos",
   target_os = "android"
 )))]
 use wry::{WebViewBuilderExtUnix, WebViewExtUnix};
@@ -1001,7 +1002,7 @@ impl WindowBuilder for WindowBuilderWrapper {
     self
   }
 
-  #[cfg(any(target_os = "macos", target_os = "ios", target_os = "android"))]
+  #[cfg(any(target_os = "macos", target_os = "ios", target_os = "visionos", target_os = "android"))]
   fn skip_taskbar(self, _skip: bool) -> Self {
     self
   }
@@ -2007,7 +2008,7 @@ impl fmt::Debug for WindowWrapper {
 #[derive(Debug, Clone)]
 pub struct EventProxy<T: UserEvent>(TaoEventLoopProxy<Message<T>>);
 
-#[cfg(target_os = "ios")]
+#[cfg(any(target_os = "ios", target_os = "visionos"))]
 #[allow(clippy::non_send_fields_in_send_ty)]
 unsafe impl<T: UserEvent> Sync for EventProxy<T> {}
 
@@ -3139,6 +3140,17 @@ fn handle_user_message<T: UserEvent>(
                 view_controller: window.ui_view_controller() as cocoa::base::id,
               });
             }
+            #[cfg(target_os = "visionos")]
+            {
+              use tao::platform::visionos::WindowExtVisionOS;
+              use wry::WebViewExtVisionOS;
+
+              f(Webview {
+                webview: webview.inner.webview(),
+                manager: webview.inner.manager(),
+                view_controller: window.ui_view_controller() as cocoa::base::id,
+              });
+            }
             #[cfg(windows)]
             {
               f(Webview {
@@ -3479,7 +3491,7 @@ fn handle_event_loop<T: UserEvent>(
         );
       }
     },
-    #[cfg(any(target_os = "macos", target_os = "ios"))]
+    #[cfg(any(target_os = "macos", target_os = "ios", target_os = "visionos"))]
     Event::Opened { urls } => {
       callback(RunEvent::Opened { urls });
     }
@@ -3775,6 +3787,7 @@ fn create_webview<T: UserEvent>(
       target_os = "windows",
       target_os = "macos",
       target_os = "ios",
+      target_os = "visionos",
       target_os = "android"
     )))]
     WebviewKind::WindowChild => {
@@ -3786,6 +3799,7 @@ fn create_webview<T: UserEvent>(
       target_os = "windows",
       target_os = "macos",
       target_os = "ios",
+      target_os = "visionos",
       target_os = "android"
     ))]
     WebviewKind::WindowChild => WebViewBuilder::new_as_child(&window),
@@ -3794,6 +3808,7 @@ fn create_webview<T: UserEvent>(
         target_os = "windows",
         target_os = "macos",
         target_os = "ios",
+        target_os = "visionos",
         target_os = "android"
       ))]
       let builder = WebViewBuilder::new(&window);
@@ -3801,6 +3816,7 @@ fn create_webview<T: UserEvent>(
         target_os = "windows",
         target_os = "macos",
         target_os = "ios",
+        target_os = "visionos",
         target_os = "android"
       )))]
       let builder = {

@@ -35,6 +35,17 @@ mod imp {
   }
 }
 
+#[cfg(target_os = "visionos")]
+mod imp {
+  use cocoa::base::id;
+
+  pub struct Webview {
+    pub webview: id,
+    pub manager: id,
+    pub view_controller: id,
+  }
+}
+
 #[cfg(windows)]
 mod imp {
   use webview2_com::Microsoft::Web::WebView2::Win32::ICoreWebView2Controller;

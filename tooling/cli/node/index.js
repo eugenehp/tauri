@@ -1,7 +1,3 @@
-// Copyright 2019-2024 Tauri Programme within The Commons Conservancy
-// SPDX-License-Identifier: Apache-2.0
-// SPDX-License-Identifier: MIT
-
 /* tslint:disable */
 /* eslint-disable */
 /* prettier-ignore */
@@ -236,6 +232,49 @@ switch (platform) {
             nativeBinding = require('./cli.linux-arm-gnueabihf.node')
           } else {
             nativeBinding = require('@tauri-apps/cli-linux-arm-gnueabihf')
+          }
+        } catch (e) {
+          loadError = e
+        }
+        break
+      case 'riscv64':
+        if (isMusl()) {
+          localFileExisted = existsSync(
+            join(__dirname, 'cli.linux-riscv64-musl.node')
+          )
+          try {
+            if (localFileExisted) {
+              nativeBinding = require('./cli.linux-riscv64-musl.node')
+            } else {
+              nativeBinding = require('@tauri-apps/cli-linux-riscv64-musl')
+            }
+          } catch (e) {
+            loadError = e
+          }
+        } else {
+          localFileExisted = existsSync(
+            join(__dirname, 'cli.linux-riscv64-gnu.node')
+          )
+          try {
+            if (localFileExisted) {
+              nativeBinding = require('./cli.linux-riscv64-gnu.node')
+            } else {
+              nativeBinding = require('@tauri-apps/cli-linux-riscv64-gnu')
+            }
+          } catch (e) {
+            loadError = e
+          }
+        }
+        break
+      case 's390x':
+        localFileExisted = existsSync(
+          join(__dirname, 'cli.linux-s390x-gnu.node')
+        )
+        try {
+          if (localFileExisted) {
+            nativeBinding = require('./cli.linux-s390x-gnu.node')
+          } else {
+            nativeBinding = require('@tauri-apps/cli-linux-s390x-gnu')
           }
         } catch (e) {
           loadError = e

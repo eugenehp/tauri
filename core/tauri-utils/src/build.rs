@@ -53,6 +53,8 @@ fn link_xcode_library(name: &str, source: impl AsRef<std::path::Path>) {
   let (sdk, arch) = match std::env::var("TARGET").unwrap().as_str() {
     "aarch64-apple-ios" => ("iphoneos", "arm64"),
     "aarch64-apple-ios-sim" => ("iphonesimulator", "arm64"),
+    "aarch64-apple-visionos" => ("xros", "arm64"),
+    "aarch64-apple-visionos-sim" => ("xrsimulator", "arm64"),
     "x86_64-apple-ios" => ("iphonesimulator", "x86_64"),
     _ => return,
   };

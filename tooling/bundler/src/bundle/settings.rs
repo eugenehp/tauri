@@ -109,6 +109,7 @@ impl PackageType {
     match self {
       PackageType::MacOsBundle => 0,
       PackageType::IosBundle => 0,
+      PackageType::VisionOsBundle => 0,
       PackageType::WindowsMsi => 0,
       PackageType::Nsis => 0,
       PackageType::Deb => 0,
@@ -125,6 +126,8 @@ const ALL_PACKAGE_TYPES: &[PackageType] = &[
   PackageType::Deb,
   #[cfg(target_os = "macos")]
   PackageType::IosBundle,
+  #[cfg(target_os = "macos")]
+  PackageType::VisionOsBundle,
   #[cfg(target_os = "windows")]
   PackageType::WindowsMsi,
   #[cfg(target_os = "windows")]

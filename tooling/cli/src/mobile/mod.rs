@@ -138,7 +138,7 @@ impl Target {
       #[cfg(target_os = "macos")]
       Self::Ios => tauri_utils::platform::Target::Ios,
       #[cfg(target_os = "macos")]
-      Self::VisionOs => tauri_utils::platform::Target::VisionOs,
+      Self::VisionOs => tauri_utils::platform::Target::VisionOS,
     }
   }
 }

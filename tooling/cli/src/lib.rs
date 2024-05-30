@@ -144,7 +144,7 @@ enum Commands {
   #[cfg(target_os = "macos")]
   Ios(mobile::ios::Cli),
   #[cfg(target_os = "macos")]
-  VisionOs(mobile::visionos::Cli),
+  VisionOs(mobile::ios::Cli),
   /// Migrate from v1 to v2
   Migrate,
   Info(info::Options),
@@ -272,7 +272,7 @@ where
     #[cfg(target_os = "macos")]
     Commands::Ios(c) => mobile::ios::command(c, cli.verbose)?,
     #[cfg(target_os = "macos")]
-    Commands::VisionOs(c) => mobile::visionos::command(c, cli.verbose)?,
+    Commands::VisionOs(c) => mobile::ios::command(c, cli.verbose)?,
     Commands::Migrate => migrate::command()?,
   }
 

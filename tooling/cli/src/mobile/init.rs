@@ -188,6 +188,23 @@ pub fn exec(
         skip_targets_install,
       )?;
       app
+    },
+    #[cfg(target_os = "macos")]
+    // Generate Xcode project
+    Target::VisionOs => {
+      let (config, metadata) =
+        super::ios::get_config(&app, tauri_config_, None, &Default::default());
+      map.insert("apple", &config);
+      super::ios::project::gen(
+        &config,
+        &metadata,
+        (handlebars, map),
+        wrapper,
+        non_interactive,
+        reinstall_deps,
+        skip_targets_install,
+      )?;
+      app
     }
   };
 

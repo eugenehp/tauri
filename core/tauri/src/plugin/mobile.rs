@@ -152,7 +152,7 @@ impl<T> fmt::Display for ErrorResponse<T> {
 
 impl<R: Runtime, C: DeserializeOwned> PluginApi<R, C> {
   /// Registers an iOS plugin.
-  #[cfg(target_os = "ios")]
+  #[cfg(any(target_os = "ios", target_os = "visionos"))]
   pub fn register_ios_plugin(
     &self,
     init_fn: unsafe fn() -> *const std::ffi::c_void,
@@ -308,7 +308,7 @@ impl<R: Runtime> PluginHandle<R> {
   }
 }
 
-#[cfg(target_os = "ios")]
+#[cfg(any(target_os = "ios", target_os = "visionos"))]
 pub(crate) fn run_command<R: Runtime, C: AsRef<str>, F: FnOnce(PluginResponse) + Send + 'static>(
   name: &str,
   _handle: &AppHandle<R>,

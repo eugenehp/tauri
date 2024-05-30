@@ -230,7 +230,7 @@ fn main() {
   println!("cargo:dev={}", dev);
 
   let target_os = std::env::var("CARGO_CFG_TARGET_OS").unwrap();
-  let mobile = target_os == "ios" || target_os == "android";
+  let mobile = target_os == "ios" || target_os == "visionos" || target_os == "android";
   alias("desktop", !mobile);
   alias("mobile", mobile);
 
@@ -310,7 +310,7 @@ fn main() {
 
   #[cfg(target_os = "macos")]
   {
-    if target_os == "ios" {
+    if target_os == "ios" || target_os == "visionos" {
       let lib_path =
         PathBuf::from(std::env::var_os("CARGO_MANIFEST_DIR").unwrap()).join("mobile/ios-api");
       tauri_utils::build::link_apple_library("Tauri", &lib_path);

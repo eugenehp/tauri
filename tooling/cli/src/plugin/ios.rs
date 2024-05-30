@@ -103,13 +103,13 @@ tauri-build = "{}"
         .unwrap();
       let init_fn = format!(
         r#"
-#[cfg(target_os = "ios")]
+#[cfg(any(target_os = "ios", target_os = "visionos"))]
 tauri::ios_plugin_binding!(init_plugin_{name});
 
 pub fn init<R: Runtime>() -> TauriPlugin<R> {{
   Builder::new("{name}")
     .setup(|app| {{
-      #[cfg(target_os = "ios")]
+      #[cfg(any(target_os = "ios", target_os = "visionos"))]
       app.register_ios_plugin(init_plugin_{name})?;
       Ok(())
     }})

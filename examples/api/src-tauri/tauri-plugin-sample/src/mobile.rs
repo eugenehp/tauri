@@ -13,7 +13,7 @@ use crate::models::*;
 #[cfg(target_os = "android")]
 const PLUGIN_IDENTIFIER: &str = "com.plugin.sample";
 
-#[cfg(target_os = "ios")]
+#[cfg(any(target_os = "ios", target_os = "visionos"))]
 tauri::ios_plugin_binding!(init_plugin_sample);
 
 // initializes the Kotlin or Swift plugin classes
@@ -23,7 +23,7 @@ pub fn init<R: Runtime, C: DeserializeOwned>(
 ) -> crate::Result<Sample<R>> {
   #[cfg(target_os = "android")]
   let handle = api.register_android_plugin(PLUGIN_IDENTIFIER, "ExamplePlugin")?;
-  #[cfg(target_os = "ios")]
+  #[cfg(any(target_os = "ios", target_os = "visionos"))]
   let handle = api.register_ios_plugin(init_plugin_sample)?;
   Ok(Sample(handle))
 }

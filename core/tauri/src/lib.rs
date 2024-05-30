@@ -56,14 +56,14 @@
 #![cfg_attr(docsrs, feature(doc_cfg))]
 
 /// Setups the binding that initializes an iOS plugin.
-#[cfg(target_os = "ios")]
+#[cfg(any(target_os = "ios", target_os = "visionos"))]
 #[macro_export]
 macro_rules! ios_plugin_binding {
   ($fn_name: ident) => {
     tauri::swift_rs::swift!(fn $fn_name() -> *const ::std::ffi::c_void);
   }
 }
-#[cfg(target_os = "ios")]
+#[cfg(any(target_os = "ios", target_os = "visionos"))]
 #[doc(hidden)]
 pub use cocoa;
 #[cfg(target_os = "macos")]
@@ -72,7 +72,7 @@ pub use embed_plist;
 pub use error::{Error, Result};
 use ipc::{RuntimeAuthority, RuntimeCapability};
 pub use resources::{Resource, ResourceId, ResourceTable};
-#[cfg(target_os = "ios")]
+#[cfg(any(target_os = "ios", target_os = "visionos"))]
 #[doc(hidden)]
 pub use swift_rs;
 #[cfg(mobile)]
@@ -96,7 +96,7 @@ pub mod webview;
 pub mod window;
 use tauri_runtime as runtime;
 pub mod image;
-#[cfg(target_os = "ios")]
+#[cfg(any(target_os = "ios", target_os = "visionos"))]
 mod ios;
 #[cfg(desktop)]
 #[cfg_attr(docsrs, doc(cfg(desktop)))]
@@ -241,7 +241,7 @@ pub use {self::webview::WebviewBuilder, self::window::WindowBuilder};
 /// The Tauri version.
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 
-#[cfg(target_os = "ios")]
+#[cfg(any(target_os = "ios", target_os = "visionos"))]
 #[doc(hidden)]
 pub fn log_stdout() {
   use std::{

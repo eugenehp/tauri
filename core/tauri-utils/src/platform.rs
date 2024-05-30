@@ -32,6 +32,9 @@ pub enum Target {
   /// iOS.
   #[serde(rename = "iOS")]
   Ios,
+  /// visionOS.
+  #[serde(rename = "visionOS")]
+  VisionOS,
 }
 
 impl Display for Target {
@@ -45,6 +48,7 @@ impl Display for Target {
         Self::Linux => "linux",
         Self::Android => "android",
         Self::Ios => "iOS",
+        Self::VisionOS => "visionOS",
       }
     )
   }
@@ -61,6 +65,8 @@ impl Target {
       Self::Android
     } else if target.contains("ios") {
       Self::Ios
+    } else if target.contains("visionos") {
+      Self::VisionOS
     } else {
       Self::Linux
     }
@@ -74,6 +80,8 @@ impl Target {
       Self::Windows
     } else if cfg!(target_os = "ios") {
       Self::Ios
+    } else if cfg!(target_os = "visionos") {
+      Self::VisionOS
     } else if cfg!(target_os = "android") {
       Self::Android
     } else {
@@ -339,6 +347,7 @@ mod build {
         Self::Windows => quote! { #prefix::Windows },
         Self::Android => quote! { #prefix::Android },
         Self::Ios => quote! { #prefix::Ios },
+        Self::VisionOS => quote! { #prefix::VisionOS },
       });
     }
   }

@@ -67,7 +67,7 @@ pub fn entry_point(_attributes: TokenStream, item: TokenStream) -> TokenStream {
       #function
 
       fn _start_app() {
-        #[cfg(target_os = "ios")]
+        #[cfg(any(target_os = "ios", target_os = "visionos"))]
         ::tauri::log_stdout();
         #[cfg(target_os = "android")]
         {

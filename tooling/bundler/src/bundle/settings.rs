@@ -24,6 +24,8 @@ pub enum PackageType {
   MacOsBundle,
   /// The iOS app bundle.
   IosBundle,
+  /// The visionOS app bundle.
+  VisionOsBundle,
   /// The Windows bundle (.msi).
   WindowsMsi,
   /// The NSIS bundle (.exe).
@@ -57,12 +59,13 @@ impl From<BundleType> for PackageType {
 
 impl PackageType {
   /// Maps a short name to a PackageType.
-  /// Possible values are "deb", "ios", "msi", "app", "rpm", "appimage", "dmg", "updater".
+  /// Possible values are "deb", "ios", "visionos", "msi", "app", "rpm", "appimage", "dmg", "updater".
   pub fn from_short_name(name: &str) -> Option<PackageType> {
     // Other types we may eventually want to support: apk.
     match name {
       "deb" => Some(PackageType::Deb),
       "ios" => Some(PackageType::IosBundle),
+      "visionos" => Some(PackageType::VisionOsBundle),
       "msi" => Some(PackageType::WindowsMsi),
       "nsis" => Some(PackageType::Nsis),
       "app" => Some(PackageType::MacOsBundle),
@@ -80,6 +83,7 @@ impl PackageType {
     match *self {
       PackageType::Deb => "deb",
       PackageType::IosBundle => "ios",
+      PackageType::VisionOsBundle => "visionos",
       PackageType::WindowsMsi => "msi",
       PackageType::Nsis => "nsis",
       PackageType::MacOsBundle => "app",
@@ -852,6 +856,7 @@ impl Settings {
     let mut platform_types = match target_os.as_str() {
       "macos" => vec![PackageType::MacOsBundle, PackageType::Dmg],
       "ios" => vec![PackageType::IosBundle],
+      "visionos" => vec![PackageType::VisionOsBundle],
       "linux" => vec![PackageType::Deb, PackageType::Rpm, PackageType::AppImage],
       "windows" => vec![PackageType::WindowsMsi, PackageType::Nsis],
       os => {

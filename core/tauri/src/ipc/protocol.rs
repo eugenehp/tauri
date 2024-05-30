@@ -325,7 +325,7 @@ fn handle_ipc_message<R: Runtime>(request: Request<String>, manager: &AppManager
 
               match &response {
                 InvokeResponse::Ok(InvokeBody::Json(v)) => {
-                  if !(cfg!(target_os = "macos") || cfg!(target_os = "ios"))
+                  if !(cfg!(target_os = "macos") || cfg!(target_os = "ios") || cfg!(target_os = "visionos"))
                     && matches!(v, JsonValue::Object(_) | JsonValue::Array(_))
                   {
                     let _ = Channel::from_callback_fn(webview, callback).send(v);
@@ -338,7 +338,7 @@ fn handle_ipc_message<R: Runtime>(request: Request<String>, manager: &AppManager
                   }
                 }
                 InvokeResponse::Ok(InvokeBody::Raw(v)) => {
-                  if cfg!(target_os = "macos") || cfg!(target_os = "ios") {
+                  if cfg!(target_os = "macos") || cfg!(target_os = "ios") || cfg!(target_os = "visionos") {
                     responder_eval(
                       &webview,
                       format_callback_result(Result::<_, ()>::Ok(v), callback, error),

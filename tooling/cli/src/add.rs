@@ -106,11 +106,11 @@ pub fn command(options: Options) -> Result<()> {
 
   let target_str = metadata
     .desktop_only
-    .then_some(r#"cfg(not(any(target_os = "android", target_os = "ios")))"#)
+    .then_some(r#"cfg(not(any(target_os = "android", target_os = "ios", target_os = "visionos")))"#)
     .or_else(|| {
       metadata
         .mobile_only
-        .then_some(r#"cfg(any(target_os = "android", target_os = "ios"))"#)
+        .then_some(r#"cfg(any(target_os = "android", target_os = "ios", target_os = "visionos"))"#)
     });
 
   cargo::install_one(cargo::CargoInstallOptions {

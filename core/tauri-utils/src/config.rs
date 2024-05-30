@@ -1107,6 +1107,9 @@ pub struct BundleConfig {
   /// iOS configuration.
   #[serde(rename = "iOS", alias = "ios", default)]
   pub ios: IosConfig,
+  /// visionOS configuration.
+  #[serde(rename = "visionOS", alias = "visionos", default)]
+  pub visionos: VisionOSConfig,
   /// Android configuration.
   #[serde(default)]
   pub android: AndroidConfig,
@@ -1804,7 +1807,19 @@ pub struct IosConfig {
   pub development_team: Option<String>,
 }
 
-/// General configuration for the iOS target.
+/// General configuration for the visionOS target.
+#[skip_serializing_none]
+#[derive(Debug, Default, PartialEq, Eq, Clone, Deserialize, Serialize)]
+#[cfg_attr(feature = "schema", derive(JsonSchema))]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct VisionOSConfig {
+  /// The development team. This value is required for visionOS development because code signing is enforced.
+  /// The `APPLE_DEVELOPMENT_TEAM` environment variable can be set to overwrite it.
+  #[serde(alias = "development-team")]
+  pub development_team: Option<String>,
+}
+
+/// General configuration for the Android target.
 #[skip_serializing_none]
 #[derive(Debug, PartialEq, Eq, Clone, Deserialize, Serialize)]
 #[cfg_attr(feature = "schema", derive(JsonSchema))]
@@ -2432,6 +2447,7 @@ mod build {
       let linux = quote!(Default::default());
       let macos = quote!(Default::default());
       let ios = quote!(Default::default());
+      let visionos = quote!(Default::default());
       let android = quote!(Default::default());
 
       literal_struct!(
@@ -2454,6 +2470,7 @@ mod build {
         linux,
         macos,
         ios,
+        visionos,
         android
       );
     }
@@ -2770,6 +2787,7 @@ mod test {
       external_bin: None,
       windows: Default::default(),
       ios: Default::default(),
+      visionos: Default::default(),
       android: Default::default(),
     };
 

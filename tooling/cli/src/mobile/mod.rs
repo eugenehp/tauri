@@ -97,6 +97,8 @@ pub enum Target {
   Android,
   #[cfg(target_os = "macos")]
   Ios,
+  #[cfg(target_os = "macos")]
+  VisionOs,
 }
 
 impl Target {
@@ -105,6 +107,8 @@ impl Target {
       Self::Android => "Android Studio",
       #[cfg(target_os = "macos")]
       Self::Ios => "Xcode",
+      #[cfg(target_os = "macos")]
+      Self::VisionOs => "Xcode",
     }
   }
 
@@ -113,6 +117,8 @@ impl Target {
       Self::Android => "android",
       #[cfg(target_os = "macos")]
       Self::Ios => "ios",
+      #[cfg(target_os = "macos")]
+      Self::VisionOs => "visionos",
     }
   }
 
@@ -121,6 +127,8 @@ impl Target {
       Self::Android => "android-studio-script",
       #[cfg(target_os = "macos")]
       Self::Ios => "xcode-script",
+      #[cfg(target_os = "macos")]
+      Self::VisionOs => "xcode-script",
     }
   }
 
@@ -129,6 +137,8 @@ impl Target {
       Self::Android => tauri_utils::platform::Target::Android,
       #[cfg(target_os = "macos")]
       Self::Ios => tauri_utils::platform::Target::Ios,
+      #[cfg(target_os = "macos")]
+      Self::VisionOs => tauri_utils::platform::Target::VisionOs,
     }
   }
 }

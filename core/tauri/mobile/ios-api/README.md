@@ -1,3 +1,3 @@
 # Tauri
 
-Tauri iOS API.
+Tauri iOS and visionOS API.

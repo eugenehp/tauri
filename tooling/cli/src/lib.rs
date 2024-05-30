@@ -78,6 +78,8 @@ pub enum RunMode {
   Desktop,
   #[cfg(target_os = "macos")]
   Ios,
+  #[cfg(target_os = "macos")]
+  VisionOs,
   Android,
 }
 
@@ -90,6 +92,7 @@ impl Display for RunMode {
         Self::Desktop => "desktop",
         #[cfg(target_os = "macos")]
         Self::Ios => "iOS",
+        Self::VisionOs => "visionOS",
         Self::Android => "android",
       }
     )
@@ -140,6 +143,8 @@ enum Commands {
   Android(mobile::android::Cli),
   #[cfg(target_os = "macos")]
   Ios(mobile::ios::Cli),
+  #[cfg(target_os = "macos")]
+  VisionOs(mobile::visionos::Cli),
   /// Migrate from v1 to v2
   Migrate,
   Info(info::Options),
@@ -266,6 +271,8 @@ where
     Commands::Android(c) => mobile::android::command(c, cli.verbose)?,
     #[cfg(target_os = "macos")]
     Commands::Ios(c) => mobile::ios::command(c, cli.verbose)?,
+    #[cfg(target_os = "macos")]
+    Commands::VisionOs(c) => mobile::visionos::command(c, cli.verbose)?,
     Commands::Migrate => migrate::command()?,
   }
 

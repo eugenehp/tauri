@@ -169,8 +169,8 @@ impl PlatformWebview {
   /// Returns the [WKWebView] handle.
   ///
   /// [WKWebView]: https://developer.apple.com/documentation/webkit/wkwebview
-  #[cfg(any(target_os = "macos", target_os = "ios"))]
-  #[cfg_attr(docsrs, doc(cfg(any(target_os = "macos", target_os = "ios"))))]
+  #[cfg(any(target_os = "macos", target_os = "ios", target_os = "visionos"))]
+  #[cfg_attr(docsrs, doc(cfg(any(target_os = "macos", target_os = "ios", target_os = "visionos"))))]
   pub fn inner(&self) -> cocoa::base::id {
     self.0.webview
   }
@@ -178,8 +178,8 @@ impl PlatformWebview {
   /// Returns WKWebView [controller] handle.
   ///
   /// [controller]: https://developer.apple.com/documentation/webkit/wkusercontentcontroller
-  #[cfg(any(target_os = "macos", target_os = "ios"))]
-  #[cfg_attr(docsrs, doc(cfg(any(target_os = "macos", target_os = "ios"))))]
+  #[cfg(any(target_os = "macos", target_os = "ios", target_os = "visionos"))]
+  #[cfg_attr(docsrs, doc(cfg(any(target_os = "macos", target_os = "ios", target_os = "visionos"))))]
   pub fn controller(&self) -> cocoa::base::id {
     self.0.manager
   }
@@ -196,8 +196,8 @@ impl PlatformWebview {
   /// Returns [UIViewController] used by the WKWebView webview NSWindow.
   ///
   /// [UIViewController]: https://developer.apple.com/documentation/uikit/uiviewcontroller
-  #[cfg(target_os = "ios")]
-  #[cfg_attr(docsrs, doc(cfg(target_os = "ios")))]
+  #[cfg(any(target_os = "ios", target_os = "visionos"))]
+  #[cfg_attr(docsrs, doc(cfg(any(target_os = "ios", target_os = "visionos"))))]
   pub fn view_controller(&self) -> cocoa::base::id {
     self.0.view_controller
   }

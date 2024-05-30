@@ -226,6 +226,13 @@
           "enum": [
             "iOS"
           ]
+        },
+        {
+          "description": "visionOS.",
+          "type": "string",
+          "enum": [
+            "visionOS"
+          ]
         }
       ]
     }

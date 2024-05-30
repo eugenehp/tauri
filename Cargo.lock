@@ -3420,6 +3420,15 @@ checksum = "81cdd64d312baedb58e21336b31bc043b77e01cc99033ce76ef539f78e965ebc"
 [[package]]
 name = "swift-rs"
 version = "1.0.6"
+dependencies = [
+ "base64 0.21.7",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "swift-rs"
+version = "1.0.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1bbdb58577b6301f8d17ae2561f32002a5bae056d444e0f69e611e504a276204"
 dependencies = [
@@ -3563,7 +3572,7 @@ dependencies = [
  "serialize-to-javascript",
  "specta",
  "state",
- "swift-rs",
+ "swift-rs 1.0.6 (registry+https://github.com/rust-lang/crates.io-index)",
  "tauri",
  "tauri-build",
  "tauri-macros",
@@ -3748,7 +3757,7 @@ dependencies = [
  "serde_json",
  "serde_with",
  "serialize-to-javascript",
- "swift-rs",
+ "swift-rs 1.0.6",
  "thiserror",
  "toml 0.8.2",
  "url",

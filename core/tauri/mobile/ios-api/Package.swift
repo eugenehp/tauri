@@ -1,4 +1,4 @@
-// swift-tools-version:5.3
+// swift-tools-version:6.0
 // Copyright 2019-2024 Tauri Programme within The Commons Conservancy
 // SPDX-License-Identifier: Apache-2.0
 // SPDX-License-Identifier: MIT
@@ -9,8 +9,8 @@ let package = Package(
   name: "Tauri",
   platforms: [
     .macOS(.v10_13),
-    .iOS(.v11),
-    .visionOS(.v1),
+    .iOS(.v12),
+    .visionOS(.v1)
   ],
   products: [
     // Products define the executables and libraries a package produces, and make them visible to other packages.

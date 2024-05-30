@@ -19,8 +19,11 @@ thiserror = "1"
 phf = { version = "0.11", features = [ "macros" ] }
 brotli = { version = "3", optional = true, default-features = false, features = [ "std" ] }
 url = { version = "2", features = [ "serde" ] }
-html5ever = "0.26"
-kuchiki = { package = "kuchikiki", version = "0.8" }
+# html5ever = "0.26"
+# kuchiki = { package = "kuchikiki", version = "0.8" }
+# kuchiki = { package = "kuchikiki", version = "0.8.2" }
+html5ever = "0.27"
+kuchiki = { package = "kuchikiki", path = "../../../kuchikiki" }
 proc-macro2 = { version = "1", optional = true }
 quote = { version = "1", optional = true }
 schemars = { version = "0.8.18", features = [ "url" ], optional = true }

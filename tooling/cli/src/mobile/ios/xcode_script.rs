@@ -85,6 +85,16 @@ pub fn command(options: Options) -> Result<()> {
 
   let env = env()?.explicit_env_vars(cli_options.vars);
 
+  // TODO: remove this
+  {
+    let tauri_config_guard = tauri_config.lock().unwrap();
+    let tauri_config_ = tauri_config_guard.as_ref().unwrap();
+    let cli_options2 = read_options(&tauri_config_.identifier);
+    println!("====== xcode_script cli_options {cli_options2:?}");
+    println!("====== xcode_script options {options:?}");
+    println!("====== xcode_script env: {env:?}");
+  }
+
   if !options.sdk_root.is_dir() {
     return Err(anyhow::anyhow!(
       "SDK root provided by Xcode was invalid. {} doesn't exist or isn't a directory",
@@ -141,11 +151,13 @@ pub fn command(options: Options) -> Result<()> {
 
   for arch in options.arches {
     // Set target-specific flags
-    let (env_triple, rust_triple) = match arch.as_str() {
-      "arm64" => ("aarch64_apple_ios", "aarch64-apple-ios"),
-      "arm64-sim" => ("aarch64_apple_ios_sim", "aarch64-apple-ios-sim"),
-      "x86_64" => ("x86_64_apple_ios", "x86_64-apple-ios"),
-      "Simulator" => {
+    let (env_triple, rust_triple) = match (arch.as_str(), options.platform.to_lowercase().as_str()) {
+      ("arm64", "visionos") => ("aarch64_apple_visionos", "aarch64-apple-visionos"),
+      ("arm64-sim", "visionos") => ("aarch64_apple_visionos_sim", "aarch64-apple-visionos-sim"),
+      ("arm64", _) => ("aarch64_apple_ios", "aarch64-apple-ios"),
+      ("arm64-sim", _) => ("aarch64_apple_ios_sim", "aarch64-apple-ios-sim"),
+      ("x86_64", _) => ("x86_64_apple_ios", "x86_64-apple-ios"),
+      ("Simulator", _) => {
         // when using Xcode, the arches for a simulator build will be ['Simulator', 'arm64-sim'] instead of ['arm64-sim']
         // so we ignore that on our end
         continue;
@@ -157,6 +169,9 @@ pub fn command(options: Options) -> Result<()> {
         ))
       }
     };
+
+    // TODO: remove this
+    println!("====== xcode_script arch={arch}, env_triple={env_triple}, rust_triple={rust_triple}");
 
     let interface = AppInterface::new(
       tauri_config.lock().unwrap().as_ref().unwrap(),
@@ -174,10 +189,11 @@ pub fn command(options: Options) -> Result<()> {
     let target = if macos {
       &macos_target
     } else {
-      Target::for_arch(&arch).ok_or_else(|| {
+      // Target::for_arch(&arch).ok_or_else(|| {
+      Target::for_triple(&rust_triple).ok_or_else(|| {
         anyhow::anyhow!(
           "Arch specified by Xcode was invalid. {} isn't a known arch",
-          arch
+          rust_triple
         )
       })?
     };

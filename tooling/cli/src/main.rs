@@ -9,6 +9,7 @@ use std::process::exit;
 
 fn main() {
   let mut args = args_os().peekable();
+
   let bin_name = match args
     .next()
     .as_deref()

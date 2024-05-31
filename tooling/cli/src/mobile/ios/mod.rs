@@ -45,6 +45,7 @@ mod xcode_script;
 
 pub const APPLE_DEVELOPMENT_TEAM_ENV_VAR_NAME: &str = "APPLE_DEVELOPMENT_TEAM";
 const TARGET_IOS_VERSION: &str = "13.0";
+const TARGET_VISIONOS_VERSION: &str = "1.0";
 
 #[derive(Parser)]
 #[clap(
@@ -57,6 +58,27 @@ const TARGET_IOS_VERSION: &str = "13.0";
 pub struct Cli {
   #[clap(subcommand)]
   command: Commands,
+}
+
+#[derive(Parser)]
+#[clap(
+  author,
+  version,
+  about = "visionOS commands",
+  subcommand_required(true),
+  arg_required_else_help(true)
+)]
+pub struct VisionOsCli {
+  #[clap(subcommand)]
+  command: Commands,
+}
+
+impl VisionOsCli {
+  pub fn to_cli(self) -> Cli{
+    Cli {
+      command: self.command
+    }
+  }
 }
 
 #[derive(Debug, Parser)]
@@ -138,6 +160,7 @@ pub fn get_config(
     bundle_version: config.version.clone(),
     bundle_version_short: config.version.clone(),
     ios_version: Some(TARGET_IOS_VERSION.into()),
+    visionos_version: Some(TARGET_VISIONOS_VERSION.into()),
     ..Default::default()
   };
   let config = AppleConfig::from_raw(app.clone(), Some(raw)).unwrap();

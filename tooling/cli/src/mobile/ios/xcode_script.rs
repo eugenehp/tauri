@@ -139,8 +139,6 @@ pub fn command(options: Options) -> Result<()> {
 
   let isysroot = format!("-isysroot {}", options.sdk_root.display());
 
-  println!("=========== xcode_script {host_env:?}");
-
   for arch in options.arches {
     // Set target-specific flags
     let (env_triple, rust_triple) = match arch.as_str() {

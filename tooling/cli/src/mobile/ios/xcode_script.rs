@@ -197,6 +197,13 @@ pub fn command(options: Options) -> Result<()> {
         )
       })?
     };
+
+    // TODO: remove this
+    println!("====== xcode_script compile_lib start");
+    dbg!(&metadata);
+    println!("====== xcode_script compile_lib end");
+
+
     target.compile_lib(
       &config,
       &metadata,

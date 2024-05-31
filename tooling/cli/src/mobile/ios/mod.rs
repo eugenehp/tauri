@@ -44,6 +44,7 @@ pub(crate) mod project;
 mod xcode_script;
 
 pub const APPLE_DEVELOPMENT_TEAM_ENV_VAR_NAME: &str = "APPLE_DEVELOPMENT_TEAM";
+pub static RUST_NIGHTLY_COMMAND_LINE_ARGUMENT: &str = "-Zbuild-std=std";
 const TARGET_IOS_VERSION: &str = "13.0";
 const TARGET_VISIONOS_VERSION: &str = "1.0";
 
@@ -131,8 +132,18 @@ pub fn get_config(
   cli_options: &CliOptions,
 ) -> (AppleConfig, AppleMetadata) {
   let mut ios_options = cli_options.clone();
+  let mut visionos_options = cli_options.clone();
+
+  // TODO: remove this once visionos support becomes available on stable rust
+  visionos_options.args.push(RUST_NIGHTLY_COMMAND_LINE_ARGUMENT.into());
+
   if let Some(features) = features {
     ios_options
+      .features
+      .get_or_insert(Vec::new())
+      .extend_from_slice(features);
+
+    visionos_options
       .features
       .get_or_insert(Vec::new())
       .extend_from_slice(features);
@@ -170,6 +181,11 @@ pub fn get_config(
     ios: ApplePlatform {
       cargo_args: Some(ios_options.args),
       features: ios_options.features,
+      ..Default::default()
+    },
+    visionos: ApplePlatform {
+      cargo_args: Some(visionos_options.args),
+      features: visionos_options.features,
       ..Default::default()
     },
     macos: Default::default(),

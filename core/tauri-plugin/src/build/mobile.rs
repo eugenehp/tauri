@@ -48,7 +48,7 @@ pub(crate) fn setup(
   #[allow(unused_variables)] ios_path: Option<PathBuf>,
 ) -> Result<()> {
   let target_os = build_var("CARGO_CFG_TARGET_OS")?;
-  let mobile = target_os == "android" || target_os == "ios";
+  let mobile = target_os == "android" || target_os == "ios" || target_os == "visionos";
   cfg_alias("mobile", mobile);
   cfg_alias("desktop", !mobile);
 

@@ -91,7 +91,7 @@ impl Target {
 
   /// Whether the target is mobile or not.
   pub fn is_mobile(&self) -> bool {
-    matches!(self, Target::Android | Target::Ios)
+    matches!(self, Target::Android | Target::Ios | Target::VisionOS)
   }
 
   /// Whether the target is desktop or not.

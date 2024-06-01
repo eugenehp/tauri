@@ -7,7 +7,7 @@ import Unocss from 'unocss/vite'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import { internalIpV4Sync } from 'internal-ip'
 
-const mobile = !!/android|ios/.exec(process.env.TAURI_ENV_PLATFORM)
+const mobile = !!/android|ios|visionos/.exec(process.env.TAURI_ENV_PLATFORM)
 
 // https://vitejs.dev/config/
 export default defineConfig({

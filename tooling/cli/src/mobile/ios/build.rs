@@ -81,7 +81,12 @@ impl From<Options> for BuildOptions {
   }
 }
 
-pub fn command(options: Options, noise_level: NoiseLevel) -> Result<()> {
+pub fn command(options: Options, noise_level: NoiseLevel, is_visionos:Option<bool>) -> Result<()> {
+  let mobile_target = match is_visionos {
+    Some(true) => MobileTarget::VisionOs,
+    _ => MobileTarget::Ios
+  };
+
   let mut build_options: BuildOptions = options.clone().into();
   build_options.target = Some(
     Target::all()
@@ -121,7 +126,7 @@ pub fn command(options: Options, noise_level: NoiseLevel) -> Result<()> {
   let tauri_path = tauri_dir();
   set_current_dir(&tauri_path).with_context(|| "failed to change current working directory")?;
 
-  ensure_init(config.project_dir(), MobileTarget::Ios)?;
+  ensure_init(config.project_dir(), mobile_target)?;
   inject_assets(&config)?;
 
   let info_plist_path = config

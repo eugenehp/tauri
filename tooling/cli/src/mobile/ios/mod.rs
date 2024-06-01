@@ -107,18 +107,23 @@ enum Commands {
   XcodeScript(xcode_script::Options),
 }
 
-pub fn command(cli: Cli, verbosity: u8) -> Result<()> {
+pub fn command(cli: Cli, verbosity: u8, is_visionos:Option<bool>) -> Result<()> {
   let noise_level = NoiseLevel::from_occurrences(verbosity as u64);
+  let mobile_target = match is_visionos {
+    Some(true) => MobileTarget::VisionOs,
+    _ => MobileTarget::Ios
+  };
+
   match cli.command {
     Commands::Init(options) => init_command(
-      MobileTarget::Ios,
+      mobile_target,
       options.ci,
       options.reinstall_deps,
       options.skip_targets_install,
     )?,
     Commands::Open => open::command()?,
-    Commands::Dev(options) => dev::command(options, noise_level)?,
-    Commands::Build(options) => build::command(options, noise_level)?,
+    Commands::Dev(options) => dev::command(options, noise_level, is_visionos)?,
+    Commands::Build(options) => build::command(options, noise_level, is_visionos)?,
     Commands::XcodeScript(options) => xcode_script::command(options)?,
   }
 

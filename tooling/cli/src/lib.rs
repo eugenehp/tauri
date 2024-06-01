@@ -270,9 +270,9 @@ where
     Commands::Capability(options) => acl::capability::command(options)?,
     Commands::Android(c) => mobile::android::command(c, cli.verbose)?,
     #[cfg(target_os = "macos")]
-    Commands::Ios(c) => mobile::ios::command(c, cli.verbose)?,
+    Commands::Ios(c) => mobile::ios::command(c, cli.verbose, None)?,
     #[cfg(target_os = "macos")]
-    Commands::Visionos(c) => mobile::ios::command(c.to_cli(), cli.verbose)?,
+    Commands::Visionos(c) => mobile::ios::command(c.to_cli(), cli.verbose, Some(true))?,
     Commands::Migrate => migrate::command()?,
   }
 

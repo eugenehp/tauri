@@ -88,15 +88,15 @@ impl From<Options> for DevOptions {
   }
 }
 
-pub fn command(options: Options, noise_level: NoiseLevel) -> Result<()> {
-  let result = run_command(options, noise_level);
+pub fn command(options: Options, noise_level: NoiseLevel, is_visionos:Option<bool>) -> Result<()> {
+  let result = run_command(options, noise_level, is_visionos);
   if result.is_err() {
     crate::dev::kill_before_dev_process();
   }
   result
 }
 
-fn run_command(options: Options, noise_level: NoiseLevel) -> Result<()> {
+fn run_command(options: Options, noise_level: NoiseLevel, is_visionos:Option<bool>) -> Result<()> {
   let env = env()?;
   let device = if options.open {
     None
@@ -110,12 +110,23 @@ fn run_command(options: Options, noise_level: NoiseLevel) -> Result<()> {
     }
   };
 
+  // TODO: remove this
+  println!("====== cli mobile ios|");
+  dbg!(&options);
+
+  // TODO: remove this
+  println!("====== cli mobile ios|");
+  dbg!(&device);
+
   let mut dev_options: DevOptions = options.clone().into();
   let target_triple = device
     .as_ref()
     .map(|d| d.target().triple.to_string())
     .unwrap_or_else(|| "aarch64-apple-ios".into());
   dev_options.target = Some(target_triple.clone());
+
+  // TODO: remove this
+  println!("====== cli mobile ios| is_visionos = {is_visionos:?}, target_triple={target_triple:?}");
 
   let tauri_config = get_tauri_config(
     tauri_utils::platform::Target::Ios,

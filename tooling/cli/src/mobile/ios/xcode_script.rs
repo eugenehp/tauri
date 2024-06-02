@@ -90,9 +90,11 @@ pub fn command(options: Options) -> Result<()> {
     let tauri_config_guard = tauri_config.lock().unwrap();
     let tauri_config_ = tauri_config_guard.as_ref().unwrap();
     let cli_options2 = read_options(&tauri_config_.identifier);
+    let profile = profile_from_configuration(&options.configuration);
     println!("====== xcode_script cli_options {cli_options2:?}");
     println!("====== xcode_script options {options:?}");
     println!("====== xcode_script env: {env:?}");
+    println!("====== xcode_script profile: {profile:?}");
   }
 
   if !options.sdk_root.is_dir() {
@@ -125,7 +127,8 @@ pub fn command(options: Options) -> Result<()> {
 
   let mut host_env = HashMap::<&str, &OsStr>::new();
 
-  host_env.insert("RUST_BACKTRACE", "1".as_ref());
+  // host_env.insert("RUST_BACKTRACE", "1".as_ref());
+  host_env.insert("RUST_BACKTRACE", "full".as_ref());
 
   host_env.insert("CFLAGS_x86_64_apple_darwin", macos_isysroot.as_ref());
   host_env.insert("CXXFLAGS_x86_64_apple_darwin", macos_isysroot.as_ref());

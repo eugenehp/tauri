@@ -118,11 +118,16 @@ fn run_command(options: Options, noise_level: NoiseLevel, is_visionos:Option<boo
   println!("====== cli mobile ios|");
   dbg!(&device);
 
+  let default_triple = match is_visionos {
+    Some(true) => "aarch64-apple-visionos",
+    _ => "aarch64-apple-ios"
+  };
+
   let mut dev_options: DevOptions = options.clone().into();
   let target_triple = device
     .as_ref()
     .map(|d| d.target().triple.to_string())
-    .unwrap_or_else(|| "aarch64-apple-ios".into());
+    .unwrap_or_else(|| default_triple.into());
   dev_options.target = Some(target_triple.clone());
 
   // TODO: remove this

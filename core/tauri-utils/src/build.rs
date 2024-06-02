@@ -76,7 +76,7 @@ fn link_xcode_library(name: &str, source: impl AsRef<std::path::Path>) {
     .arg(&derived_data_path)
     .arg("BUILD_LIBRARY_FOR_DISTRIBUTION=YES")
     .arg("OTHER_SWIFT_FLAGS=-no-verify-emitted-module-interface")
-    // .arg("TARGETED_DEVICE_FAMILY=1") // sets UIDeviceFamily to iphone (1), ipad(2), watch(3), homepod(4), vision pro(5?)
+    .arg("TARGETED_DEVICE_FAMILY=\"1,2,7\"") // sets UIDeviceFamily to iphone (1), ipad(2), watch(3), homepod(4), vision pro(7)
     .current_dir(source)
     .env_clear()
     .status()
